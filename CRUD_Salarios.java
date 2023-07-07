@@ -1,4 +1,4 @@
-
+package TelasJava;
 
 import java.awt.EventQueue;
 
@@ -19,16 +19,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class JTable_Soma_Itens_e_Conta_Linhas {
+public class JTable_Deletando_Itens {
 
 	private JFrame frmTrabalhandoComJtable;
 	private JTextField txtNome;
 	private JTextField txtSobrenome;
 	private JTextField txtIdade;
 	private JTable tabelaNomes;
-	private JTextField txtSalarios;
-	private JTextField txtQtdLinhas;
-	private JTextField txtSalario;
 
 	/**
 	 * Launch the application.
@@ -37,7 +34,7 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JTable_Soma_Itens_e_Conta_Linhas window = new JTable_Soma_Itens_e_Conta_Linhas();
+					JTable_Deletando_Itens window = new JTable_Deletando_Itens();
 					window.frmTrabalhandoComJtable.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,15 +46,11 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 	/**
 	 * Create the application.
 	 */
-	public JTable_Soma_Itens_e_Conta_Linhas() {
+	public JTable_Deletando_Itens() {
 		initialize();
 		
 		//Popular as informações
-		CRUD_Salarios();
-		
-		//Chama a função que soma os salário e conta as linhas
-		somar_contar();
-		
+		JTable_Deletando_itens();
 	}
 
 	/**
@@ -67,44 +60,44 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 		frmTrabalhandoComJtable = new JFrame();
 		frmTrabalhandoComJtable.getContentPane().setBackground(new Color(255, 255, 255));
 		frmTrabalhandoComJtable.setTitle("Trabalhando com JTable");
-		frmTrabalhandoComJtable.setBounds(100, 100, 903, 460);
+		frmTrabalhandoComJtable.setBounds(100, 100, 716, 460);
 		frmTrabalhandoComJtable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTrabalhandoComJtable.getContentPane().setLayout(null);
 		
 		//Centralizar a tela
 		frmTrabalhandoComJtable.setLocationRelativeTo(null);
-		frmTrabalhandoComJtable.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Nome");
-		lblNewLabel.setBounds(36, 34, 142, 40);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setBounds(36, 34, 142, 40);
 		frmTrabalhandoComJtable.getContentPane().add(lblNewLabel);
 		
 		txtNome = new JTextField();
-		txtNome.setBounds(36, 71, 201, 33);
 		txtNome.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		txtNome.setBounds(36, 71, 201, 33);
 		frmTrabalhandoComJtable.getContentPane().add(txtNome);
 		txtNome.setColumns(10);
 		
 		JLabel lblSobrenome = new JLabel("Sobrenome");
-		lblSobrenome.setBounds(247, 34, 142, 40);
 		lblSobrenome.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblSobrenome.setBounds(247, 34, 142, 40);
 		frmTrabalhandoComJtable.getContentPane().add(lblSobrenome);
 		
 		txtSobrenome = new JTextField();
-		txtSobrenome.setBounds(247, 71, 201, 33);
 		txtSobrenome.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		txtSobrenome.setColumns(10);
+		txtSobrenome.setBounds(247, 71, 201, 33);
 		frmTrabalhandoComJtable.getContentPane().add(txtSobrenome);
 		
 		JLabel lblIdade = new JLabel("Idade");
-		lblIdade.setBounds(458, 34, 142, 40);
 		lblIdade.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblIdade.setBounds(458, 34, 142, 40);
 		frmTrabalhandoComJtable.getContentPane().add(lblIdade);
 		
 		txtIdade = new JTextField();
-		txtIdade.setBounds(458, 71, 201, 33);
 		txtIdade.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		txtIdade.setColumns(10);
+		txtIdade.setBounds(458, 71, 201, 33);
 		frmTrabalhandoComJtable.getContentPane().add(txtIdade);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -129,7 +122,6 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 				txtNome.setText(configacoesTabela.getValueAt(selecionaNumeroLinha, 0).toString());
 				txtSobrenome.setText(configacoesTabela.getValueAt(selecionaNumeroLinha, 1).toString());
 				txtIdade.setText(configacoesTabela.getValueAt(selecionaNumeroLinha, 2).toString());
-				txtSalario.setText(configacoesTabela.getValueAt(selecionaNumeroLinha, 3).toString());
 				
 			}
 		});
@@ -139,14 +131,13 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 			new Object[][] {
 			},
 			new String[] {
-				"Nome", "Sobrenome", "Idade", "Sal\u00E1rio"
+				"Nome", "Sobrenome", "Idade"
 			}
 		));
 		//Aumento a largura das linhas
 		tabelaNomes.setRowHeight(30);
 		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(36, 355, 192, 40);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -156,26 +147,20 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 				//Adiciona uma nova linha para a tabela
 				linha.addRow(new Object[] {txtNome.getText(),
 											txtSobrenome.getText(), 
-											txtIdade.getText(),
-											txtSalario.getText()});
+											txtIdade.getText()});
 				
 				//Limpando o campo de texto depois que adiciona na tabela
 				txtNome.setText("");
 				txtSobrenome.setText("");
 				txtIdade.setText("");
-				txtSalario.setText("");
-				
-				
-				//Recalcular tudo de novo
-				somar_contar();
 				
 			}
 		});
 		btnSalvar.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btnSalvar.setBounds(36, 355, 192, 40);
 		frmTrabalhandoComJtable.getContentPane().add(btnSalvar);
 		
 		JButton btnAlterar = new JButton("Alterar");
-		btnAlterar.setBounds(241, 355, 192, 40);
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -196,11 +181,7 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 					modelo.setValueAt(txtNome.getText(), linha, 0);
 					modelo.setValueAt(txtSobrenome.getText(), linha, 1);
 					modelo.setValueAt(txtIdade.getText(), linha, 2);
-					modelo.setValueAt(txtSalario.getText(), linha, 3);
 				
-					//Recalcular tudo de novo
-					somar_contar();
-					
 				//else - senão
 				}else {
 					
@@ -212,10 +193,10 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 			}
 		});
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btnAlterar.setBounds(241, 355, 192, 40);
 		frmTrabalhandoComJtable.getContentPane().add(btnAlterar);
 		
 		JButton btnDeletar = new JButton("Deletar");
-		btnDeletar.setBounds(443, 355, 192, 40);
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -230,9 +211,6 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 					
 					//removeRow - Remover a linha selecionada
 					linha.removeRow(numeroLinhaItemSelecionado);
-					
-					//Recalcular tudo de novo
-					somar_contar();
 
 				//catch
 				} catch (Exception e2) {
@@ -244,46 +222,8 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 			}
 		});
 		btnDeletar.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btnDeletar.setBounds(443, 355, 192, 40);
 		frmTrabalhandoComJtable.getContentPane().add(btnDeletar);
-		
-		JLabel lblSalrios = new JLabel("Sal\u00E1rios");
-		lblSalrios.setBounds(678, 115, 142, 40);
-		lblSalrios.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		frmTrabalhandoComJtable.getContentPane().add(lblSalrios);
-		
-		txtSalarios = new JTextField();
-		txtSalarios.setBounds(678, 152, 201, 33);
-		txtSalarios.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		txtSalarios.setColumns(10);
-		frmTrabalhandoComJtable.getContentPane().add(txtSalarios);
-		
-		JLabel lblLinhas = new JLabel("Linhas");
-		lblLinhas.setBounds(678, 208, 142, 40);
-		lblLinhas.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		frmTrabalhandoComJtable.getContentPane().add(lblLinhas);
-		
-		txtQtdLinhas = new JTextField();
-		txtQtdLinhas.setBounds(678, 245, 201, 33);
-		txtQtdLinhas.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		txtQtdLinhas.setColumns(10);
-		frmTrabalhandoComJtable.getContentPane().add(txtQtdLinhas);
-		
-		JLabel lblSalrio = new JLabel("Sal\u00E1rio");
-		lblSalrio.setBounds(669, 34, 142, 40);
-		lblSalrio.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		frmTrabalhandoComJtable.getContentPane().add(lblSalrio);
-		
-		txtSalario = new JTextField();
-		txtSalario.setBounds(669, 71, 201, 33);
-		txtSalario.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		txtSalario.setColumns(10);
-		frmTrabalhandoComJtable.getContentPane().add(txtSalario);
-		
-		JLabel lblCrudSalarios = new JLabel("CRUD Salários");
-		lblCrudSalarios.setForeground(Color.BLUE);
-		lblCrudSalarios.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 30));
-		lblCrudSalarios.setBounds(316, 0, 239, 35);
-		frmTrabalhandoComJtable.getContentPane().add(lblCrudSalarios);
 		
 	}
 	
@@ -294,14 +234,12 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 		public String nome;
 		public String sobrenome;
 		public String idade;
-		public double salario;
 		
-		public Cliente(String n, String sn, String i, double s) {
+		public Cliente(String n, String sn, String i) {
 			
 			this.nome = n;
 			this.sobrenome = sn;
 			this.idade = i;
-			this.salario = s;
 			
 		}
 		
@@ -311,14 +249,14 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 	public <E> ArrayList<E> listaClientes(){
 		
 		ArrayList<Cliente> lista = new ArrayList<Cliente>();
-		Cliente cliente1 = new Cliente("Ana", "Paula", "29", 50);
-		Cliente cliente2 = new Cliente("Carlos", "Pires", "35", 100);
-		Cliente cliente3 = new Cliente("Viviane", "Gomes", "51", 150);
-		Cliente cliente4 = new Cliente("Pedro", "Silva", "32", 200);
-		Cliente cliente5 = new Cliente("Alice", "Almeida", "19", 250);
-		Cliente cliente6 = new Cliente("Cintia", "Bernardes", "52", 300);
-		Cliente cliente7 = new Cliente("Carla", "Nunes", "28", 350);
-		Cliente cliente8 = new Cliente("Mia", "Leal", "19", 400);
+		Cliente cliente1 = new Cliente("Ana", "Paula", "29");
+		Cliente cliente2 = new Cliente("Carlos", "Pires", "35");
+		Cliente cliente3 = new Cliente("Viviane", "Gomes", "51");
+		Cliente cliente4 = new Cliente("Pedro", "Silva", "32");
+		Cliente cliente5 = new Cliente("Alice", "Almeida", "19");
+		Cliente cliente6 = new Cliente("Cintia", "Bernardes", "52");
+		Cliente cliente7 = new Cliente("Carla", "Nunes", "28");
+		Cliente cliente8 = new Cliente("Mia", "Leal", "19");
 		lista.add(cliente1);
 		lista.add(cliente2);
 		lista.add(cliente3);
@@ -332,13 +270,13 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 		
 	}
 	
-	public void CRUD_Salarios(){
+	public void JTable_Deletando_itens(){
 		
 		
 		//DefaultTableModel implementa a iterface
 		DefaultTableModel informacao = (DefaultTableModel) tabelaNomes.getModel();
 		ArrayList<Cliente> lista = listaClientes();
-		Object linha[] = new Object[4];
+		Object linha[] = new Object[3];
 		
 		//for - para
 		for(int coluna = 0; coluna < lista.size(); coluna++) {
@@ -346,37 +284,12 @@ public class JTable_Soma_Itens_e_Conta_Linhas {
 			linha[0] = lista.get(coluna).nome;
 			linha[1] = lista.get(coluna).sobrenome;
 			linha[2] = lista.get(coluna).idade;
-			linha[3] = lista.get(coluna).salario;
 			
 			//Adiciono as informacoes de cada coluna na linha corrente
 			informacao.addRow(linha);
 			
 			
 		}
-		
-	}
-	
-	public void somar_contar(){
-		
-		double soma = 0;
-		int qtdLinhas = 0;
-		
-		//tabelaNomes.getRowCount() - Contar a quantidade de linhas que tem na nossa tabela
-		//for - para
-		for(int linha = 0; linha < tabelaNomes.getRowCount(); linha++) {
-			
-			soma = soma + Double.parseDouble(tabelaNomes.getValueAt(linha, 3).toString());
-			
-		}
-		
-		//Imprimir como texto
-		txtSalarios.setText( Double.toString(soma));
-		
-		//Conto quantas linhas tem na nossa tabela
-		qtdLinhas = tabelaNomes.getRowCount();
-		
-		//Imprimir como texto
-		txtQtdLinhas.setText( Integer.toString(qtdLinhas));
 		
 	}
 }
