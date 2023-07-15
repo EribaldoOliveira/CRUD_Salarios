@@ -1,4 +1,4 @@
-package CRUD_Salarios;
+package TelasJava;
 
 import java.awt.EventQueue;
 
@@ -19,7 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class CRUD_Salarios {
+public class JTable_Soma_Itens_e_Conta_Linhas {
 
 	private JFrame frmTrabalhandoComJtable;
 	private JTextField txtNome;
